@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<link rel="stylesheet" href="topraves.css" />
+<meta charset="utf-8">
+<style>
+		#map-page, #map-canvas { width: 100%; height: 100%; padding: 0; }
+</style>
+	<link rel="stylesheet" href="../_assets/css/jqm-demos.css">
+	<link rel="shortcut icon" href="../favicon.ico">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script>
+	/*
+	 * Google Maps documentation: http://code.google.com/apis/maps/documentation/javascript/basics.html
+	 * Geolocation documentation: http://dev.w3.org/geo/api/spec-source.html
+	 */
+
+	$( document ).on( "pagecreate", "#map-page", function() {
+		var defaultLatLng = new google.maps.LatLng(34.0983425, -118.3267434);  // Default to Hollywood, CA when no geolocation support
+
+		if ( navigator.geolocation ) {
+			function success(pos) {
+				// Location found, show map with these coordinates
+				drawMap(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+			}
+
+			function fail(error) {
+				drawMap(defaultLatLng);  // Failed to find location, show default map
+			}
+
+			// Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
+			navigator.geolocation.getCurrentPosition(success, fail, {maximumAge: 500000, enableHighAccuracy:true, timeout: 6000});
+		} else {
+			drawMap(defaultLatLng);  // No geolocation support, show default map
+		}
+
+		function drawMap(latlng) {
+			var myOptions = {
+				zoom: 10,
+				center: latlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+
+			var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+			// Add an overlay to the map of current lat/lng
+			var marker = new google.maps.Marker({
+				position: latlng,
+				map: map,
+				title: "Greetings!"
+			});
+		}
+
+	});
+	</script>
+</head>
+<body>
+
+<div data-role="page" data-theme="b">
+  <div data-role="header">
+    <h1>TopRaves.com</h1>
+  </div>
+
+<div data-role="main" class="ui-content">
+
+<!--Custom Code Starts Here-->
+
+<h1>Maps</h1>
+<div data-url="map-page" data-role="page" id="map-page">
+	<a href="#map-page" data-ajax="false" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini ui-icon-arrow-r ui-btn-icon-right">Open Map</a>
+</div>
+	
+<div role="main" class="ui-content" id="map-canvas">
+        <!-- map loads here... -->
+</div>
+<form>
+    <ul data-role="listview" data-inset="true">
+        <ul data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search by Cuisine..." data-inset="true">
+			<li><a href="#">Indian</a></li>
+			<li><a href="#">Chinese</a></li>
+			<li><a href="#">Mexican</a></li>
+			<li><a href="#">Italian</a></li>
+			<li><a href="#">Pizza</a></li>
+			<li><a href="#">Steak</a></li>
+			<li><a href="#">Mediterranean</a></li>
+		</ul>
+	
+</div>
+        <li class="ui-field-contain">
+            <label for="flip2">Use Current Location:</label>
+            <select name="flip2" id="flip2" data-role="slider">
+                <option value="off">YES</option>
+                <option value="on">NO</option>
+            </select>
+        </li>
+        <li class="ui-field-contain">
+            <label for="slider2">Proximity :(in miles)</label>
+            <input name="slider2" id="slider2" value="5" min="3" max="15" data-highlight="true" type="range">
+        </li>
+        <li class="ui-field-contain">
+            <label for="select-choice-1" class="select">Options:</label>
+            <select name="select-choice-1" id="select-choice-1">
+                <option value="standard">Dine - in </option>
+                <option value="rush">Take Out</option>
+                <option value="express">Home Delivery</option>
+                <option value="overnight">Catering</option>
+            </select>
+        </li>
+        <li class="ui-body ui-body-b">
+            <li><a href="page1.html"  class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-carat-r" data-transition="slidedown"> <h2> Search </h2> </a></li>
+			<li><a href="index.html"  class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-carat-l" data-transition="flip"> <h2> Reset </h2> </a></li>
+		
+        </li>
+		
+    </ul>
+</form>
+
+<!--Custom Code Ends Here-->
+  <div data-role="footer">
+    <h1>RATE * REVIEW * RAVE</h1>
+		
+	
+  </div>
+</div> 
+
+</body>
+</html>
